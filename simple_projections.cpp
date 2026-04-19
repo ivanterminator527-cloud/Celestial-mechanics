@@ -207,9 +207,8 @@ std::vector<std::vector<std::vector<double>>> RK4_cpp(double Tmax, double z,
 
 
 
-float LKH_main(std::vector<std::vector<float>> stars, std::vector<float> z, float s_zeta, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
+float LKH_main(std::vector<float>& z, std::vector<std::vector<float>>& stars, float& s_zeta, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
 {
-
     std::vector<float> distances (stars.size(), 0); float square;
     for (size_t i=0; i<stars.size(); i++){
         distances[i] = find_per2(stars[i], z, d, r, stars[i])[0];//there dont understand what with z-component in find_per
@@ -224,7 +223,7 @@ float LKH_main(std::vector<std::vector<float>> stars, std::vector<float> z, floa
 PYBIND11_MODULE(simple_projection, m) {
     m.def("RK4_cpp", &RK4_cpp, " Tmax,  z,  R0,  vz,  vt,  vr,  dt");
     m.def("find_per2", &find_per2, "finding the nearest nbor");
-    //m.def("LKH", &LKH_main, "Return the logarifm likelihood function");
+    m.def("LKH", &LKH_main, "Return the logarifm likelihood function");
     m.def("find_dist", &dist, "Return the distancion between point to and point ");
     m.def("zeta", &Z_model);
     m.def("ind_for_matrix_cpp", &ind_for_matrix);
