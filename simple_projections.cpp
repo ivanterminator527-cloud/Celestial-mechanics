@@ -217,7 +217,6 @@ float LKH_main(std::vector<float>& z, std::vector<std::vector<float>>& stars, fl
     +stars.size()*std::log(s_zeta)
     +stars.size()/2*std::log(2*std::acos(0.0));
 }
-//std::vector<std::vector<float>> velocity_by_component()
 
 PYBIND11_MODULE(simple_projection, m) {
     m.def("RK4_cpp", &RK4_cpp, "Tmax, z, X, Y, vz, vt, vr, dt, frequency, z_ij, d, r");
