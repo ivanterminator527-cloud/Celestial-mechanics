@@ -206,19 +206,17 @@ std::vector<std::vector<std::vector<double>>> RK4_cpp(double Tmax, double z,
 
 
 
-float LKH_main(std::vector<float>& z, std::vector<std::vector<float>>& stars, float& s_zeta, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
+float LKH_main(std::vector<float>& z, std::vector<std::vector<float>>& stars, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
 {
     std::vector<float> distances (stars.size(), 0); float square;
     for (size_t i=0; i<stars.size(); i++){
         distances[i] = find_per2(stars[i], z, d, r, stars[i])[0];
     }
     square = abs_vector(distances);
-    return square/2/s_zeta/s_zeta
-    +stars.size()*std::log(s_zeta)
-    +stars.size()/2*std::log(2*std::acos(0.0));
+    return square;
 }
 
-float LKH_main_fix(float z_k, int k; std::vector<float>& z std::vector<std::vector<float>>& stars, float& s_zeta, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
+float LKH_main_fix(float z_k, int k; std::vector<float>& z std::vector<std::vector<float>>& stars, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
 {
     std::vector<float> distances (stars.size(), 0); float square;
     z[k] = z_k;
@@ -226,9 +224,7 @@ float LKH_main_fix(float z_k, int k; std::vector<float>& z std::vector<std::vect
         distances[i] = find_per2(stars[i], z, d, r, stars[i])[0];
     }
     square = abs_vector(distances);
-    return square/2/s_zeta/s_zeta
-    +stars.size()*std::log(s_zeta)
-    +stars.size()/2*std::log(2*std::acos(0.0));
+    return square;
 }
 
 PYBIND11_MODULE(simple_projection, m) {

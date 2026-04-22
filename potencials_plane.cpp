@@ -27,7 +27,7 @@ std::vector<int>  ind_for_matrix(int idx)
 float Z_model(const std::vector<float>& coord, std::vector<float>& z)
 {
     std::vector<int> ind (2, 0);
-    float Z=0.0;
+    float Z=0.0f;
     for (size_t i=0; i<z.size(); i++)
     {
         ind = ind_for_matrix(i);
@@ -90,14 +90,9 @@ std::vector<float> energy (std::vector<std::vector<float>>& stars,
     return ene;
 }
 
-float LKH_potencial(std::vector<float>& solve, std::vector<std::vector<float>>& stars, 
+float LKH_potencial(std::vector<float>& z, std::vector<std::vector<float>>& stars, 
                         float& d, float& r,
                         std::vector<std::vector<float>>& velocity){
-    std::vector<float> z (solve.size()-1, 0.0f);
-    float sigma = solve[solve.size()-1];
-    for (size_t i=0; i<z.size(); i++){
-        z[i] = solve[i];
-    }
 
     std::vector<float> ene = energy(stars, z, d, r, velocity);
     float summ=0;
@@ -105,9 +100,7 @@ float LKH_potencial(std::vector<float>& solve, std::vector<std::vector<float>>& 
         summ+= (el-sigma)*(el-sigma);
     }
 
-    return summ/2/sigma/sigma
-    +stars.size()*std::log(sigma)
-    +stars.size()/2*std::log(2*std::acos(0.0));
+    return summ;
     
 }
 
