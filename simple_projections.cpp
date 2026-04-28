@@ -50,7 +50,7 @@ float Z_model(const std::vector<float>& coord, std::vector<float>& z)
 
 std::vector<float> find_per2(const std::vector<float>& star, std::vector<float>& z, float d, float& r, const std::vector<float>&ref)
 {
-    std::vector<float> distances(4, 0); int i; float b = 1/2;
+    std::vector<float> distances(4, 0); int i; float b = 0.5f;
     distances[0] = dist({ref[0]+d, ref[1], Z_model({ref[0]+d, ref[1]},z)}, star);
     distances[1] = dist({ref[0], ref[1]+d, Z_model({ref[0], ref[1]+d},z)}, star);
     distances[2] = dist({ref[0]-d, ref[1], Z_model({ref[0]-d, ref[1]},z)}, star);
@@ -216,7 +216,7 @@ float LKH_main(std::vector<float>& z, std::vector<std::vector<float>>& stars, fl
     return square;
 }
 
-float LKH_main_fix(float z_k, int k; std::vector<float>& z std::vector<std::vector<float>>& stars, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
+float LKH_main_fix(float z_k, int k, std::vector<float>& z, std::vector<std::vector<float>>& stars, float& d, float& r)//Realisation for the future, std::vector<int> indexes, std::vector<std::vector<float> param_group)
 {
     std::vector<float> distances (stars.size(), 0); float square;
     z[k] = z_k;

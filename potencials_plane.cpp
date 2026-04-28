@@ -36,9 +36,9 @@ float Z_model(const std::vector<float>& coord, std::vector<float>& z)
     return Z;
 }
 
-std::vector<float> find_per2(const std::vector<float>& star, std::vector<float>& z, float d, float& r, const std::vector<float>&ref)
+std::vector<float> find_per2(const std::vector<float>& star, std::vector<float>& z, const float& d, float& r, const std::vector<float>&ref)
 {
-    std::vector<float> distances(4, 0); int i; float b = 1/2;
+    std::vector<float> distances(4, 0); int i; float b = 0.5f;
     distances[0] = dist({ref[0]+d, ref[1], Z_model({ref[0]+d, ref[1]},z)}, star);
     distances[1] = dist({ref[0], ref[1]+d, Z_model({ref[0], ref[1]+d},z)}, star);
     distances[2] = dist({ref[0]-d, ref[1], Z_model({ref[0]-d, ref[1]},z)}, star);
@@ -91,13 +91,13 @@ std::vector<float> energy (std::vector<std::vector<float>>& stars,
 }
 
 float LKH_potencial(std::vector<float>& z, std::vector<std::vector<float>>& stars, 
-                        float& d, float& r,
+                        float& d, float& r, float& sigma,
                         std::vector<std::vector<float>>& velocity){
 
     std::vector<float> ene = energy(stars, z, d, r, velocity);
-    float summ=0;
+    float summ=0.0f;
     for (float el: ene){
-        summ+= (el-sigma)*(el-sigma);
+        summ += (el-sigma)*(el-sigma);
     }
 
     return summ;
