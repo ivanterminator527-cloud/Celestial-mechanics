@@ -227,6 +227,31 @@ float LKH_main_fix(float z_k, int k, std::vector<float>& z, std::vector<std::vec
     return square;
 }
 
+float func_extinction(std::vector<float> solve, float R){
+    float value = 0;
+    std::vector<float> z(solve.begin()+static_cast<int>(1), solve.end());
+
+    for (size_t i = 0; i<z.size(); i++){
+        value += z[i]*std::pow(R, i);
+    }
+    return value*solve[0];
+}
+
+float integral_extinction(std::vector<float> solve, const std::vector<float> coordinate_to, const std::vector<float> coordinate_from, float r){
+    float cos_a = (coordinate_to[0]-coordinate_from[0])/std::sqrt(std::pow((coordinate_to[1]-coordinate_from[1]), 2)+std::pow((coordinate_to[0]-coordinate_from[0]), 2));
+    float sin_a = (coordinate_to[1]-coordinate_from[1])/std::sqrt(std::pow((coordinate_to[1]-coordinate_from[1]), 2)+std::pow((coordinate_to[0]-coordinate_from[0]), 2));
+    float l=0.0f; float R_now; float I=1.0f;
+    while (l*cos_a < (coordinate_to[0]-coordinate_from[0])){
+        R_now = std::sqrt( std::pow(coordinate_from[0]+l*cos_a, 2) +  std::pow(coordinate_from[1]+l*sin_a, 2));
+        I -= I*func_extinction(solve, R_now)*r;
+        l += r;
+    }
+    return I;
+    
+}
+
+
+
 PYBIND11_MODULE(simple_projection, m) {
     m.def("RK4_cpp", &RK4_cpp, "Tmax, z, X, Y, vz, vt, vr, dt, frequency, z_ij, d, r");
     m.def("find_per2", &find_per2, "finding the nearest nbor");
@@ -234,4 +259,6 @@ PYBIND11_MODULE(simple_projection, m) {
     m.def("find_dist", &dist, "Return the distancion between point to and point ");
     m.def("zeta", &Z_model);
     m.def("ind_for_matrix_cpp", &ind_for_matrix);
+    m.def("int_extinction", &integral_extinction);
+    m.def("func_extinction", &func_extinction);
 }
