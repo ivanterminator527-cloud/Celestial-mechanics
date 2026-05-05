@@ -227,23 +227,22 @@ float LKH_main_fix(float z_k, int k, std::vector<float>& z, std::vector<std::vec
     return square;
 }
 
-float func_extinction(std::vector<float> solve, float R){
+float func_extinction(std::vector<float>& z, float R){
     float value = 0;
-    std::vector<float> z(solve.begin()+static_cast<int>(1), solve.end());
 
     for (size_t i = 0; i<z.size(); i++){
         value += z[i]*std::pow(R, i);
     }
-    return value*solve[0];
+    return value;
 }
 
-float integral_extinction(std::vector<float> solve, const std::vector<float> coordinate_to, const std::vector<float> coordinate_from, float r){
+float integral_extinction(std::vector<float>& z, const std::vector<float>& coordinate_to, const std::vector<float>& coordinate_from, float& r){
     float cos_a = (coordinate_to[0]-coordinate_from[0])/std::sqrt(std::pow((coordinate_to[1]-coordinate_from[1]), 2)+std::pow((coordinate_to[0]-coordinate_from[0]), 2));
     float sin_a = (coordinate_to[1]-coordinate_from[1])/std::sqrt(std::pow((coordinate_to[1]-coordinate_from[1]), 2)+std::pow((coordinate_to[0]-coordinate_from[0]), 2));
     float l=0.0f; float R_now; float I=1.0f;
-    while (l*cos_a < (coordinate_to[0]-coordinate_from[0])){
+    while (l< std::sqrt(std::pow((coordinate_to[1]-coordinate_from[1]), 2)+std::pow((coordinate_to[0]-coordinate_from[0]), 2))){
         R_now = std::sqrt( std::pow(coordinate_from[0]+l*cos_a, 2) +  std::pow(coordinate_from[1]+l*sin_a, 2));
-        I -= I*func_extinction(solve, R_now)*r;
+        I -= I*func_extinction(z, R_now)*r;
         l += r;
     }
     return I;
