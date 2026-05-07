@@ -1,2 +1,6 @@
 # Celestial-mechanics
-That my some project about motion stars in the Galaxy disk in static potencial field. There will be upgrade that stars fields can be change by self-moving while other potencial will be also static
+Проект основан на нескольких идеях, которые реализованы в той или иной степени, описаны в document.pdf. Основная компилляция происходит на .ipynb, результаты компиляций - в drawing.pdf.
+
+simple_projections.cpp содержит основные функции минимизации для поиска диска по сумме наименьших квадратов. find_per2 - помогает найти наименьшее расстояние от точки до плоскости. Также файл включает в себя моделирование в потенциале Галактики звёзд. Все функции в нём не содержат видимых ошибок.
+potencials_plane.cpp включает в себя суммирование потенциалов с учётом кинетической составляющей. Этот файл представляет собой ветку изучения потенциалов у звёзд.
+dynamic_plane.cpp описывает поведение RK4 с учётом искривление диска, которая задаёт функция минимизации LKH коэффициент правдоподобия, воспроизводимая через scipy.optimize.minimize в Python каждую n секунду.
